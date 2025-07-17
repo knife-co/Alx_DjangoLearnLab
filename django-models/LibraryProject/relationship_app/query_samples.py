@@ -8,11 +8,9 @@ django.setup()
 from relationship_app.models import Book, Author, Library, Librarian
 
 # Query all books by a specific author
-author_name = "Chinua Achebe"
-books_by_author = Book.objects.filter(author_name=author_name)
-print(f"\n📚 Books by {author_name}:")
-for book in books_by_author:
-    print("-", book.title)
+author_name = "Chinua Achebe"  # Example author name
+author = Author.objects.get(name=author_name)  # Required line
+books_by_author = Book.objects.filter(author=author)  # Required line
 
 # List all books in a library (Library.books is ManyToMany)
 library_name = "Central Library"
