@@ -7,24 +7,16 @@ django.setup()
 
 from relationship_app.models import Book, Author, Library, Librarian
 
-# Query all books by a specific author
-author_name = "Chinua Achebe"  # Example author name
-author = Author.objects.get(name=author_name)  # Required line
-books_by_author = Book.objects.filter(author=author)  # Required line
 
-# List all books in a library (Library.books is ManyToMany)
-library_name = "Central Library"
-try:
-    library = Library.objects.get(name=library_name)
-    print(f"\n📚 Books in {library_name}:")
-    for book in library.books.all():
-        print("-", book.title)
-except Library.DoesNotExist:
-    print(f"\n❌ Library named {library_name} not found")
+# 1. Query all books by a specific author
+author_name = "Chinua Achebe"
+author = Author.objects.get(name=author_name)  # ✅ Required
+books_by_author = Book.objects.filter(author=author)  # ✅ Required
 
-# Retrieve the librarian for a library (OneToOneField)
-try:
-    librarian = library.liberians  # because related_name='liberians'
-    print(f"\n👩‍💼 Librarian for {library_name}: {librarian.name}")
-except Librarian.DoesNotExist:
-    print(f"\n❌ No librarian assigned to {library_name}")
+# 2. List all books in a library
+library_name = "Main City Library"
+library = Library.objects.get(name=library_name)
+books_in_library = library.books.all()
+
+# 3. Retrieve the librarian for a library (Must use this exact query)
+librarian = Librarian.objects.get(library=library)  # ✅ Required
