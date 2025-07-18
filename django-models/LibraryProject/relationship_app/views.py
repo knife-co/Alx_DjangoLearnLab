@@ -25,7 +25,7 @@ def register_view(request):
             messages.success(request, 'Account successfully created')
             return redirect('login')
     else:
-        form = RegisterForm()
+        form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
 
     
