@@ -15,6 +15,13 @@ class Book(models.Model):
 
     def __str__(self):
         return f"The book, {self.title} was written by {self.author}"
+
+    class Meta:
+        permissions = [
+            ('can_add_book', 'can add a book'),
+            ('can_change_book', 'can edit a book'),
+            ('can_delete_book', 'can delete a book')
+        ]
     
 class Library(models.Model):
     name = models.CharField(max_length=100)
