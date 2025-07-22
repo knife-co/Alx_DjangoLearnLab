@@ -1,0 +1,25 @@
+<!-- relationship_app/templates/relationship_app/add_book.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Book</title>
+</head>
+<body>
+    <h1>Add New Book</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Book</button>
+    </form>
+
+    <a href="{% url 'list_books' %}">Back to Book List</a>
+</body>
+</html>
