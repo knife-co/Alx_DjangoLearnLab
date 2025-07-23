@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import BaseUserManager
 
 # Create your models here.
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         if not email:
@@ -42,6 +41,14 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ('can_view', 'can view book details'),
+            ('can_create', 'can create book'),
+            ('can_edit', 'can edit book details'),
+            ('can_delete', 'can delete book')
+        ]
 
     def __str__(self):
         return f"{self.title} by {self.author} ({self.publication_year})"

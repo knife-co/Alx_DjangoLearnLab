@@ -21,5 +21,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('relationship_app.urls')),  # This line connects to the app's urls.py
+    path('bookshelf/', include('bookshelf.urls')),  # This line connects to the bookshelf app's urls.py
 ]
 
