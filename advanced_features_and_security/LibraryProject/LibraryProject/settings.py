@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-n_sn(#+mfbkk16*8!zxiisyig$*vg^0v(rlb!nl3r+c0ec!=u9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf.apps.BookshelfConfig',
     'relationship_app',
+    'csp',  # Content Security Policy app
 ]
 
 # In LibraryProject/settings.py
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',  # Add CSP middleware
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -126,5 +128,28 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP traffic to HTTPS
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # If using a proxy, set this to ensure HTTPS is recognized
+
+
+# CSRF settings
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookie is only sent over HTTPS
+CSRF_COOKIE_HTTPONLY = True  # Prevent JavaScript access to CSRF cookie 
+SESSION_COOKIE_SECURE = True  # Ensure session cookie is only sent over HTTPS
+
+# Content Security Policy settings
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com")  # Allow scripts from self and CDN
+CSP_STYLE_SRC = ("'self'", "https://cdnjs.cloudflare.com")  # Allow styles from self and CDN
+CSP_IMG_SRC = ("'self'", "data:", "https://example.com")  # Allow images from self, data URIs, and example.com
+CSP_FONT_SRC = ("'self'", "https://cdnjs.cloudflare.com")
+CSP_CONNECT_SRC = ("'self'", "https://api.example.com")  # Allow connections to self and API
+CSP_FRAME_SRC = ("'none'",)  # Prevent framing
 
 

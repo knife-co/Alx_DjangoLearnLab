@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Book
+from .forms import ExampleForm
 
 # Create your views here.
 
@@ -39,4 +40,15 @@ class BookDeleteView(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('book_list')
     permission_required = 'bookshelf.can_delete'
     raise_exception = True
+
+class ExampleFormView(PermissionRequiredMixin, CreateView):
+    model = Book
+    form_class = ExampleForm
+    template_name = 'bookshelf/form_example.html'
+    success_url = reverse_lazy('book_list')
+    permission_required = 'bookshelf.can_create'
+    raise_exception = True
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
